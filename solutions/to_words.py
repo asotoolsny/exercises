@@ -1,4 +1,4 @@
-# ### Print numbers in plain words (up to 1000)
+# Print numbers in plain words (up to 1000)
 #
 # For example,
 # 1           :       "one"
