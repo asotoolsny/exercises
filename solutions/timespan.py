@@ -4,11 +4,14 @@ class TimeSpan(object):
         self._minutes = minutes
         self._seconds = seconds
 
+    @property
+    def total_seconds(self):
+        return self._hours*3600 + self._minutes*60 + self._seconds
+
     def __add__(self, other):
         new_timepan = TimeSpan(self._hours, self._minutes, self._seconds)
-        new_timepan.add_seconds(other._hours*3600 +
-                                other._minutes*60 +
-                                other._seconds)
+        new_timepan.add_seconds(other.total_seconds)
+
         return new_timepan
 
     def __sub__(self, o):
@@ -25,31 +28,19 @@ class TimeSpan(object):
         return not self.__eq__(value)
 
     def __le__(self, other):
-        left_total = self._hours*3600 + self._minutes*60 + self._seconds
-        right_total = other._hours*3600 + other._minutes*60 + other._seconds
-
-        return left_total <= right_total
+        return self.total_seconds <= other.total_seconds
 
     def __lt__(self, other):
-        left_total = self._hours*3600 + self._minutes*60 + self._seconds
-        right_total = other._hours*3600 + other._minutes*60 + other._seconds
-
-        return left_total < right_total
+        return self.total_seconds < other.total_seconds
 
     def __ge__(self, other):
-        left_total = self._hours*3600 + self._minutes*60 + self._seconds
-        right_total = other._hours*3600 + other._minutes*60 + other._seconds
-
-        return left_total >= right_total
+        return self.total_seconds >= other.total_seconds
 
     def __gt__(self, other):
-        left_total = self._hours*3600 + self._minutes*60 + self._seconds
-        right_total = other._hours*3600 + other._minutes*60 + other._seconds
-
-        return left_total > right_total
+        return self.total_seconds > other.total_seconds
 
     def add_seconds(self, value):
-        total = self._hours*3600 + self._minutes*60 + self._seconds + value
+        total = self.total_seconds + value
         minutes, self._seconds = divmod(total, 60)
         hours, self._minutes = divmod(minutes, 60)
         _, self._hours = divmod(hours, 24)
